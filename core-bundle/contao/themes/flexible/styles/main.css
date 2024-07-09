@@ -54,8 +54,11 @@ html {
 
 /* Body */
 body {
+	display: flex;
+	flex-direction: column;
 	background: var(--body-bg);
-	overflow-y: scroll;
+	min-height: 100svh;
+	/*overflow-y: scroll;*/
 }
 
 body.popup {
@@ -285,7 +288,7 @@ body.popup {
 /* Container */
 #container {
 	display: flex;
-	min-height: calc(100vh - 40px);
+	flex-grow: 1;
 }
 
 .popup #container {
@@ -301,6 +304,7 @@ body.popup {
 	background: var(--nav-bg);
 	display: flex;
 	flex-direction: column;
+	min-height: 100%;
 }
 
 #left .version {
@@ -319,6 +323,7 @@ body.popup {
 	width: calc(100% - 220px);
 	display: flex;
 	flex-direction: column;
+	min-height: 100%;
 }
 
 .popup #main {
@@ -2947,6 +2952,8 @@ fieldset.collapsed > legend {
 @media (max-width: 991px) {
 	#container {
 		display: block;
+		position: relative;
+		overflow: hidden;
 	}
 
 	#main, #left {
@@ -2970,7 +2977,7 @@ fieldset.collapsed > legend {
 	#left {
 		visibility: hidden;
 		position: absolute;
-		top: 40px;
+		top: 0;
 		width: 240px;
 		transition: transform .2s ease, visibility .2s ease;
 		-webkit-transform: translateX(-240px);
