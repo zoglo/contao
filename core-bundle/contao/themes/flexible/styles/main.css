@@ -2953,7 +2953,6 @@ fieldset.collapsed > legend {
 	#container {
 		display: block;
 		position: relative;
-		overflow: hidden;
 	}
 
 	#main, #left {
