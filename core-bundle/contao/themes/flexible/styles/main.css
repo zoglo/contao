@@ -321,10 +321,6 @@ body.popup {
 	color: var(--nav-group);
 }
 
-#tl_navigation, #left .version {
-	background: var(--nav-bg);
-}
-
 /* Main */
 #main {
 	width: calc(100% - 220px);
