@@ -740,6 +740,7 @@ h2.sub_headline {
 .jump-targets {
 	min-height: 30px;
 	padding-top: 1px;
+	display: grid;
 	background: var(--panel-bg);
 	border-bottom: 1px solid var(--content-border);
 	position: sticky;
