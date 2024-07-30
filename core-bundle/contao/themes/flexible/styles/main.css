@@ -19,7 +19,6 @@
 	--icon-visible: url("icons/visible.svg");
 	--icon-invisible: url("icons/invisible.svg");
 	--icon-loading: url("icons/loading.svg");
-	--header-mh: 40px;
 }
 
 html[data-color-scheme="dark"] {
@@ -41,8 +40,9 @@ html[data-color-scheme="dark"] {
 	--icon-loading: url("icons/loading--dark.svg");
 }
 
-/* Account for the jump links bar */
 html {
+	height: 100%;
+	/* Account for the jump links bar */
 	scroll-padding-top: 36px;
 	scroll-behavior: smooth;
 }
@@ -51,10 +51,6 @@ html {
 	html {
 		scroll-behavior: auto;
 	}
-}
-
-html {
-	height: 100%;
 }
 
 /* Body */
@@ -72,7 +68,7 @@ body.popup {
 
 /* Header */
 #header {
-	min-height: var(--header-mh);
+	min-height: 40px;
 	text-align: left;
 	background: var(--header-bg);
 }
