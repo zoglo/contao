@@ -74,7 +74,7 @@ class FilesProvider implements ProviderInterface
         }
     }
 
-    public function convertDocumentToHit(Document $document): Hit
+    public function convertDocumentToHit(Document $document): Hit|null
     {
         // TODO: service for view and edit URLs
         $viewUrl = 'https://todo.com?view='.$document->getId();
@@ -94,9 +94,9 @@ class FilesProvider implements ProviderInterface
         return $hit;
     }
 
-    public function canAccessDocument(TokenInterface $token, Document $document): bool
+    public function isHitGranted(TokenInterface $token, Hit $hit): bool
     {
-        $path = $document->getMetadata()['path'] ?? '';
+        $path = $hit->getDocument()->getMetadata()['path'] ?? '';
 
         return $this->accessDecisionManager->decide($token, ['contao_user.filemounts'], $path);
     }
