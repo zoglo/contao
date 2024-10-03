@@ -1,19 +1,29 @@
+{% use "@Contao/component/_figure.html.twig" %}
+
 {% for hit in hits %}
     <div class="tl_search_hit">
-        <h3>{{ hit.title }}</h3>
-
-        {% if hit.context %}
-            <p class="context">{{ hit.context }}</p>
-        {% endif %}
-
         {% if hit.image %}
-            <p>TODO: use the image studio and the figure component to render the image with a predefined image size that is optimal for the UI integration</p>
+            {#
+                TODO: use the image studio and the figure component to render the image with a predefined image size that is optimal for the UI integration
+                      Also make sure not showing an image if the document is not of image type
+            #}
+            <div class="hit_preview">
+                <img class="preview_image" src="/{{ hit.image }}" alt="{{ hit.title }}" loading="lazy">
+            </div>
         {% endif %}
 
-        <a href="{{ hit.viewUrl }}">View this item</a>
+        <div class="hit_content">
+            <h3>{{ hit.title| split('.')[0] }}</h3>
 
-        {% if hit.editUrl %}
-            <a href="{{ hit.editUrl }}">Edit this item</a>
-        {% endif %}
+            {% if hit.context %}
+                <p class="context">{{ hit.context }}</p>
+            {% endif %}
+
+            {#<a href="{{ hit.viewUrl }}">View this item</a>#}
+
+            {#{% if hit.editUrl %}
+                <a href="{{ hit.editUrl }}">Edit this item</a>
+            {% endif %}#}
+        </div>
     </div>
 {% endfor %}
