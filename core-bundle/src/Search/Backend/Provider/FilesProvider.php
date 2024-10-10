@@ -80,14 +80,13 @@ class FilesProvider implements ProviderInterface
         $viewUrl = 'https://todo.com?view='.$document->getId();
         $editUrl = 'https://todo.com?edit='.$document->getId();
 
-        $hit = (new Hit($document->getMetadata()['name'], $viewUrl))
+        $hit = (new Hit($document, $document->getMetadata()['name'] ?? '', $viewUrl))
             ->withEditUrl($editUrl)
             ->withContext($document->getSearchableContent())
         ;
 
         if ($document->getMetadata()['type'] !== 'folder')
         {
-            // ToDo: Proper check for file type such as images
             $hit = $hit->withImage($document->getMetadata()['path'] ?? null);
         }
 
