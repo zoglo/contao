@@ -530,6 +530,12 @@
       <trans-unit id="CTE.teaser.1">
         <source>Displays the teaser text of an article.</source>
       </trans-unit>
+      <trans-unit id="CTE.navigation.0">
+        <source>Navigation menu</source>
+      </trans-unit>
+      <trans-unit id="CTE.navigation.1">
+        <source>Generates a navigation menu from the pages</source>
+      </trans-unit>
       <trans-unit id="CTE.legacy">
         <source>Legacy elements</source>
       </trans-unit>

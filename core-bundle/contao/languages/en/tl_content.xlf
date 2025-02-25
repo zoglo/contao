@@ -26,6 +26,12 @@
       <trans-unit id="tl_content.sectionHeadline.1">
         <source>Here you can add a section headline, e.g. a tab title or accordion header.</source>
       </trans-unit>
+      <trans-unit id="tl_content.ariaLabel.0">
+        <source>ARIA label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.ariaLabel.1">
+        <source>If there is more than one navigation element on the page, each should have a unique label.</source>
+      </trans-unit>
       <trans-unit id="tl_content.text.0">
         <source>Text</source>
       </trans-unit>
@@ -598,6 +604,9 @@
       </trans-unit>
       <trans-unit id="tl_content.invisible_legend">
         <source>Visibility</source>
+      </trans-unit>
+      <trans-unit id="tl_content.label_legend">
+        <source>Label</source>
       </trans-unit>
       <trans-unit id="tl_content.ordered">
         <source>ordered list</source>

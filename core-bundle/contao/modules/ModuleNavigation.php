@@ -12,6 +12,9 @@ namespace Contao;
 
 /**
  * Front end module "navigation".
+ *
+ * @deprecated Deprecated since Contao 5.6, to be removed in Contao 6;
+ *             use the content element instead.
  */
 class ModuleNavigation extends Module
 {

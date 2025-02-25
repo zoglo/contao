@@ -117,6 +117,8 @@ services:
 
     Contao\CoreBundle\Controller\ContentElement\MarkdownController: ~
 
+    Contao\CoreBundle\Controller\ContentElement\NavigationController: ~
+
     Contao\CoreBundle\Controller\ContentElement\PlayerController:
         arguments:
             - '@contao.filesystem.virtual.files'
