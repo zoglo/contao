@@ -32,6 +32,54 @@
       <trans-unit id="tl_content.ariaLabel.1">
         <source>If there is more than one navigation element on the page, each should have a unique label.</source>
       </trans-unit>
+      <trans-unit id="tl_content.showHidden.0">
+        <source>Show hidden items</source>
+      </trans-unit>
+      <trans-unit id="tl_content.showHidden.1">
+        <source>Show items that are usually hidden in the navigation menu.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.levelOffset.0">
+        <source>Start level</source>
+      </trans-unit>
+      <trans-unit id="tl_content.levelOffset.1">
+        <source>Enter a value greater than 0 to show only submenu items.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.showLevel.0">
+        <source>Stop level</source>
+      </trans-unit>
+      <trans-unit id="tl_content.showLevel.1">
+        <source>Enter a value greater than 0 to limit the nesting level of the menu.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hardLimit.0">
+        <source>Hard limit</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hardLimit.1">
+        <source>Never show any menu items beyond the stop level.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.showProtected.0">
+        <source>Show protected items</source>
+      </trans-unit>
+      <trans-unit id="tl_content.showProtected.1">
+        <source>Show items that are usually only visible to authenticated members.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.defineRoot.0">
+        <source>Set a reference page</source>
+      </trans-unit>
+      <trans-unit id="tl_content.defineRoot.1">
+        <source>Define a custom source or target page for the module.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rootPage.0">
+        <source>Reference page</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rootPage.1">
+        <source>Please choose the reference page.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.navigationTpl.0">
+        <source>Navigation template</source>
+      </trans-unit>
+      <trans-unit id="tl_content.navigationTpl.1">
+        <source>Here you can select the navigation template.</source>
+      </trans-unit>
       <trans-unit id="tl_content.text.0">
         <source>Text</source>
       </trans-unit>
@@ -607,6 +655,12 @@
       </trans-unit>
       <trans-unit id="tl_content.label_legend">
         <source>Label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.nav_legend">
+        <source>Navigation settings</source>
+      </trans-unit>
+      <trans-unit id="tl_content.reference_legend">
+        <source>Reference page</source>
       </trans-unit>
       <trans-unit id="tl_content.ordered">
         <source>ordered list</source>

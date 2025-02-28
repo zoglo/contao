@@ -63,7 +63,7 @@ $GLOBALS['TL_DCA']['tl_content'] = array
 			'fields'                  => array('sorting'),
 			'panelLayout'             => 'filter;search,limit',
 			'defaultSearchField'      => 'text',
-			'headerFields'            => array('title', 'type', 'author', 'tstamp', 'start', 'stop'),
+			'headerFields'            => array('title', 'type', 'author', 'tstamp', 'start', 'stop', 'name'),
 			'child_record_callback'   => array('tl_content', 'addCteType'),
 			'renderAsGrid'            => true,
 			'limitHeight'             => 160
@@ -73,7 +73,7 @@ $GLOBALS['TL_DCA']['tl_content'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'                => array('type', 'addImage', 'sortable', 'useImage', 'overwriteMeta', 'overwriteLink', 'protected', 'splashImage', 'markdownSource', 'showPreview'),
+		'__selector__'                => array('type', 'addImage', 'sortable', 'useImage', 'overwriteMeta', 'overwriteLink', 'protected', 'splashImage', 'markdownSource', 'showPreview', 'defineRoot'),
 		'default'                     => '{type_legend},title,type',
 		'headline'                    => '{type_legend},title,headline,type;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop',
 		'text'                        => '{type_legend},title,headline,type;{text_legend},text;{image_legend},addImage;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop',
@@ -122,7 +122,8 @@ $GLOBALS['TL_DCA']['tl_content'] = array
 		'splashImage'                 => 'singleSRC,size',
 		'markdownSource_sourceText'   => 'code',
 		'markdownSource_sourceFile'   => 'singleSRC',
-		'showPreview'                 => 'size,fullsize,numberOfItems'
+		'showPreview'                 => 'size,fullsize,numberOfItems',
+		'defineRoot'                  => 'rootPage'
 	),
 
 	// Fields
@@ -741,6 +742,66 @@ $GLOBALS['TL_DCA']['tl_content'] = array
 			),
 			'sql'                     => "int(10) unsigned NOT NULL default 0",
 			'relation'                => array('type'=>'hasOne', 'load'=>'lazy')
+		),
+		'ariaLabel' => array
+		(
+			'inputType'               => 'text',
+			'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'levelOffset' => array
+		(
+			'inputType'               => 'text',
+			'eval'                    => array('maxlength'=>5, 'rgxp'=>'natural', 'tl_class'=>'w25 clr'),
+			'sql'                     => "smallint(5) unsigned NOT NULL default 0"
+		),
+		'showLevel' => array
+		(
+			'inputType'               => 'text',
+			'eval'                    => array('maxlength'=>5, 'rgxp'=>'natural', 'tl_class'=>'w25'),
+			'sql'                     => "smallint(5) unsigned NOT NULL default 0"
+		),
+		'hardLimit' => array
+		(
+			'inputType'               => 'checkbox',
+			'eval'                    => array('tl_class'=>'w25'),
+			'sql'                     => array('type' => 'boolean', 'default' => false),
+		),
+		'showProtected' => array
+		(
+			'inputType'               => 'checkbox',
+			'eval'                    => array('tl_class'=>'w25'),
+			'sql'                     => array('type' => 'boolean', 'default' => false),
+		),
+		'defineRoot' => array
+		(
+			'inputType'               => 'checkbox',
+			'eval'                    => array('submitOnChange'=>true),
+			'sql'                     => array('type' => 'boolean', 'default' => false),
+		),
+		'rootPage' => array
+		(
+			'inputType'               => 'pageTree',
+			'foreignKey'              => 'tl_page.title',
+			'eval'                    => array('fieldType'=>'radio', 'tl_class'=>'clr'),
+			'sql'                     => "int(10) unsigned NOT NULL default 0",
+			'relation'                => array('type'=>'hasOne', 'load'=>'lazy')
+		),
+		'navigationTpl' => array
+		(
+			'inputType'               => 'select',
+			'options_callback' => static function () {
+				return Controller::getTemplateGroup('nav_');
+			},
+			'eval'                    => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(64) COLLATE ascii_bin NOT NULL default ''"
+		),
+
+		'showHidden' => array
+		(
+			'inputType'               => 'checkbox',
+			'eval'                    => array('tl_class'=>'w25'),
+			'sql'                     => array('type' => 'boolean', 'default' => false),
 		),
 		'protected' => array
 		(
