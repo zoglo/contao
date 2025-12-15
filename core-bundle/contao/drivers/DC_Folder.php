@@ -513,8 +513,13 @@ class DC_Folder extends DataContainer implements ListableDataContainerInterface,
 			$operations->append(array('html' => $buttons), true);
 		}
 
+		if (isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['panelLayout']))
+		{
+			$operations->addFilterButton();
+		}
+
 		// Build the tree
-		$return = $this->panel() . Message::generate() . $operations . ((Input::get('act') == 'select') ? '
+		$return = $this->panel() . '<div class="content-inner">' . Message::generate() . $operations . ((Input::get('act') == 'select') ? '
 <form id="tl_select" class="tl_form' . ((Input::get('act') == 'select') ? ' unselectable' : '') . '" method="post" novalidate>
 <div class="tl_formbody_edit">
 <input type="hidden" name="FORM_SUBMIT" value="tl_select">
@@ -1176,7 +1181,6 @@ class DC_Folder extends DataContainer implements ListableDataContainerInterface,
 					throw new ResponseException(new Response('', 201));
 				}
 
-				// Do not purge the html folder (see #2898)
 				if (Input::post('uploadNback') !== null && !$objUploader->hasResized())
 				{
 					Message::reset();

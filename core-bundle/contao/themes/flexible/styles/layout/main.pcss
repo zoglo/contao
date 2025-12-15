@@ -7,6 +7,15 @@
 
     .content {
         margin: 0 15px 15px;
+
+        &:not(:has(.content-filter)) {
+            background: var(--content-bg);
+            border: 1px solid var(--content-border);
+            border-radius: var(--border-radius);
+        }
+    }
+
+    .content-inner, .content-filter {
         background: var(--content-bg);
         border: 1px solid var(--content-border);
         border-radius: var(--border-radius);
@@ -17,55 +26,55 @@
     }
 }
 
-@media (min-width: 768px) {
+.popup #main {
+    .content {
+        height: auto;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .content-inner {
+        border: none;
+    }
+}
+
+@media (width < 1280px) {
     #main {
-        .content:has(>.content-filter),
-        .content > .tree-view:has(>.content-filter) {
-            display: grid;
-            grid-template-columns: auto var(--filter-width, 240px);
-            grid-template-areas: "listing filter";
-
-            > .content-filter {
-                grid-area: filter;
-            }
-
-            > *:not(.content-filter, .operations) {
-                grid-area: listing;
-            }
-
-            > .operations, > #picker-menu {
-                grid-area: top;
-            }
-
-            &:has(>.operations, > #picker-menu) {
-                grid-template-rows: auto 1fr;
-                grid-template-areas: "top filter"
-                                     "listing filter";
-            }
+        .content-filter {
+            border: 0;
+            border-radius: 0;
         }
     }
 }
 
-.popup #main {
-    float: none;
-    width: auto;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    display: initial;
-}
+@media (min-width: 1280px) {
+    #main {
+        .content:has(>.content-filter),
+        .content > .tree-view:has(>.content-filter) {
+            display: grid;
+            align-items: start;
+            column-gap: var(--main-panel-gap, 10px);
+            grid-template-columns: calc(100% - var(--main-panel-gap, 10px) - var(--filter-width, 240px)) var(--filter-width, 240px);
+            min-height: 100%;
 
-#main .content {
-    margin: 0 15px 15px;
-    background: var(--content-bg);
-    border: 1px solid var(--content-border);
-    border-radius: var(--border-radius);
-}
+            &:has(>.operations, > #picker-menu) {
+                grid-template-rows: auto 1fr;
+                grid-template-areas: "top top"
+                                     "listing filter";
 
-.popup #main .content {
-    height: auto;
-    margin: 0;
-    border: 0;
-    border-radius: 0;
+                > *:not(.content-filter, .operations) {
+                    grid-area: listing;
+                }
+
+                > .content-filter {
+                    grid-area: filter;
+                }
+
+                > .operations, > #picker-menu {
+                    grid-area: top;
+                }
+            }
+        }
+    }
 }

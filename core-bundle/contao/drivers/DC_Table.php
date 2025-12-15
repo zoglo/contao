@@ -1053,7 +1053,7 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 				Message::addError(\sprintf(System::getContainer()->get('translator')->trans('ERR.copyUnique', array(), 'contao_default'), (int) $currentRecord['id']));
 			}
 
-			if ($objInsertStmt && $objInsertStmt->affectedRows)
+			if ($objInsertStmt?->affectedRows)
 			{
 				$insertID = $objInsertStmt->insertId;
 
@@ -3377,6 +3377,8 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 			$operations->append(array('html' => $buttons), true);
 		}
 
+		$operations->addFilterButton();
+
 		$return = Message::generate() . $operations;
 
 		$tree = '';
@@ -4056,6 +4058,8 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 			$operations->append(array('html' => $buttons), true);
 		}
 
+		$operations->addFilterButton();
+
 		$return = Message::generate() . $operations;
 
 		// Get all details of the parent record
@@ -4648,6 +4652,8 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 
 			$operations->append(array('html' => $buttons), true);
 		}
+
+		$operations->addFilterButton();
 
 		$return = Message::generate() . $operations;
 
