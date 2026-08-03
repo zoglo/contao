@@ -300,11 +300,11 @@ class FileTree extends Widget
 		$return = '<input type="hidden" name="' . $this->strName . '" id="ctrl_' . $this->strId . '" value="' . $strSet . '"' . ($this->onchange ? ' onchange="' . $this->onchange . '"' : '') . ' data-contao--input-map-target="input">
   <div class="selector_container">' . (($this->isSortable && \count($arrValues) > 1) ? '
     <p class="sort_hint">' . $GLOBALS['TL_LANG']['MSC']['dragItemsHint'] . '</p>' : '') . '
-    <ul id="sort_' . $this->strId . '" class="' . trim(($this->isSortable ? 'sortable ' : '') . ($this->isGallery ? 'sgallery' : '')) . '"' . ($this->isSortable ? ' data-controller="contao--sortable" data-action="contao--sortable:update->contao--input-map#update"' : '') . '>';
+    <ul id="sort_' . $this->strId . '" class="' . trim(($this->isSortable ? 'sortable ' : '') . ($this->isGallery ? 'sgallery' : '')) . '"' . ($this->isSortable ? ' data-controller="contao--sortable" data-contao--sortable-draggable-value="li" data-action="contao--sortable:update->contao--input-map#update"' : '') . '>';
 
 		foreach ($arrValues as $k=>$v)
 		{
-			$return .= '<li data-contao--input-map-target="source" data-id="' . StringUtil::binToUuid($k) . '">' . $v . '</li>';
+			$return .= '<li data-contao--input-map-target="source" data-id="' . StringUtil::binToUuid($k) . '" '. ($this->isSortable ? ' data-action="keydown->contao--sortable#move" tabindex="0"' : '') . '>' . $v . '</li>';
 		}
 
 		$return .= '</ul>';
