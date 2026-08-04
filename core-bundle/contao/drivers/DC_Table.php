@@ -3537,6 +3537,7 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 		);
 
 		$blnHasSorting = $db->fieldExists('sorting', $table);
+		$blnIsSortable = $blnHasSorting && !($GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'] ?? null) && Input::get('act') != 'select';
 		$arrFound = array();
 
 		if (!empty($this->procedure))
@@ -3618,6 +3619,7 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 		}
 
 		$parameters['primary_only'] = $this->shouldRenderPrimaryOperationsOnly();
+		$parameters['is_sortable'] = $blnIsSortable;
 
 		$this->treeRecordCount = 0;
 		$this->treeRecordLimitReached = false;
@@ -4084,6 +4086,19 @@ class DC_Table extends DataContainer implements ListableDataContainerInterface, 
 			'records' => array(),
 			'children' => array(),
 		);
+
+		$blnIsSortable = $blnHasSorting && !($GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'] ?? null) && Input::get('act') != 'select';
+
+		$parameters['is_sortable'] = $blnIsSortable;
+		$parameters['allow_dragging'] = false;
+
+		if ($blnIsSortable && $isCurrentTable && System::getContainer()->get('security.helper')->isGranted(ContaoCorePermissions::DC_PREFIX . $this->strTable, new UpdateAction($this->strTable, $currentRecord)))
+		{
+			$labelCut = $GLOBALS['TL_LANG'][$this->strTable]['cut'] ?? $GLOBALS['TL_LANG']['DCA']['cut'] ?? '';
+
+			$parameters['allow_dragging'] = true;
+			$parameters['drag_handle_label'] = \sprintf(\is_array($labelCut) ? $labelCut[1] : $labelCut, $currentRecord['id']);
+		}
 
 		if ($table != $this->strTable)
 		{
