@@ -190,8 +190,15 @@ export default class extends Controller {
             return false;
         }
 
-        // Do not sort into the root array (only root pages allowed)
-        if (event.to.dataset.id === '0' && !event.dragged.querySelector(':scope > .tl_folder')) {
+        const draggingRootPage = this.#isRootPage(event.dragged);
+
+        // Do not sort root items into subtrees
+        if (draggingRootPage && event.to.dataset.id !== '0') {
+            return false;
+        }
+
+        // Do not sort normal items into the root (only root items allowed)
+        if (!draggingRootPage && event.to.dataset.id === '0') {
             return false;
         }
 
@@ -227,5 +234,9 @@ export default class extends Controller {
             this.#updateWrapperLevel(item);
             this.#updateParentSorting(item);
         }
+    }
+
+    #isRootPage(el) {
+        return !!el.querySelector(':scope > .tl_folder');
     }
 }
