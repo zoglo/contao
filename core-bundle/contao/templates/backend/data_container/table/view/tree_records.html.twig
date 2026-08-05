@@ -1,7 +1,11 @@
 {% trans_default_domain 'contao_default' %}
 
-<li data-id="{{ record_id }}">
-    {% set has_children = children|length or toggler_url %}
+{% set item_attributes = attrs()
+    .set('data-id', record_id)
+    .set('data-root-page', 'true', is_root_page)
+    .set('data-leaf-record', 'true', is_leaf_record)
+%}
+<li{{ item_attributes }}>
     {% set row_attributes = attrs()
         .addClass('cf')
         .addClass('tl_folder', is_group)
@@ -21,6 +25,7 @@
             </button>
         {% endif %}
 
+        {% set has_children = children|length or toggler_url %}
         {% set label_attributes = attrs()
             .addClass(['tl_left', 'with-offset'])
             .addStyle({'--level': level + (has_children ? 0 : 1)})
@@ -50,12 +55,28 @@
         </div>
     </div>
 
+    {# Recursivly rendered records #}
+    {% if record_table != records_group %}
+        {% set records_attributes = attrs()
+            .set('data-id', record_id)
+            .set('data-controller', 'contao--sortable', is_sortable)
+            .set('data-contao--sortable-handle-value', '.drag-handle', is_sortable)
+            .set('data-contao--sortable-parent-mode-value', 'true', is_sortable)
+            .set('data-contao--sortable-group-value', records_group, is_sortable)
+            .set('data-contao--sortable-draggable-value', 'li[data-id]', is_sortable)
+            .set('data-contao--sortable-request-token-value', contao.request_token, is_sortable)
+        %}
+        <ul{{ records_attributes }}>
+            {{ records|join|raw }}
+        </ul>
+    {% endif %}
+
     {# Child nodes #}
-    {% if has_children %}
+    {% if not is_leaf_record %}
         {% set list_attributes = attrs()
             .set('id', id)
             .set('data-id', record_id)
-            .addStyle({'display': 'none'}, not is_expanded)
+            .addStyle({'display': 'none'}, toggler_url and not is_expanded)
             .set('data-contao--toggle-nodes-target', 'child' ~ (level == 0 ? ' rootChild' : ''))
             .set('data-controller', 'contao--sortable', is_sortable)
             .set('data-contao--sortable-handle-value', '.drag-handle', is_sortable)
@@ -69,6 +90,3 @@
         </ul>
     {% endif %}
 </li>
-
-{# Recursivly rendered records #}
-{{ records|join|raw }}
