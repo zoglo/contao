@@ -202,9 +202,16 @@ export default class extends Controller {
             return false;
         }
 
+        const targetOwner = event.to.closest('li[data-id]');
+
+        // Do not allow leaf records (MODE_TREE_EXTENDED) to be sorted into root pages
+        if (event.dragged.hasAttribute('data-leaf-record') && targetOwner?.hasAttribute('data-root-page')) {
+            return false;
+        }
+
         this.#previewLevel(event.dragged);
 
-        this.#highlight(event.to.closest('li[data-id]'));
+        this.#highlight(targetOwner);
 
         return true;
     }
@@ -237,6 +244,6 @@ export default class extends Controller {
     }
 
     #isRootPage(el) {
-        return !!el.querySelector(':scope > .tl_folder');
+        return el.hasAttribute('data-root-page');
     }
 }
