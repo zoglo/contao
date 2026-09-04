@@ -31,6 +31,7 @@ use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Reprise\RepriseBundle;
 use Webauthn\Bundle\WebauthnBundle;
 
 /**
@@ -46,6 +47,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
             BundleConfig::create(SchebTwoFactorBundle::class),
             BundleConfig::create(CmfRoutingBundle::class),
             BundleConfig::create(WebauthnBundle::class),
+            BundleConfig::create(RepriseBundle::class),
             BundleConfig::create(ContaoCoreBundle::class)
                 ->setReplace(['core'])
                 ->setLoadAfter(
@@ -62,6 +64,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
                         SchebTwoFactorBundle::class,
                         CmfRoutingBundle::class,
                         WebauthnBundle::class,
+                        RepriseBundle::class,
                     ],
                 ),
         ];

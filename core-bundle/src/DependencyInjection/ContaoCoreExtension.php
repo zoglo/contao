@@ -95,6 +95,14 @@ class ContaoCoreExtension extends Extension implements PrependExtensionInterface
                 ],
             ]);
         }
+
+        if ($container->hasExtension('reprise')) {
+            $container->prependExtensionConfig('reprise', [
+                'builds' => [
+                    'contao_core' => Path::canonicalize(__DIR__.'/../../public'),
+                ],
+            ]);
+        }
     }
 
     public function load(array $configs, ContainerBuilder $container): void

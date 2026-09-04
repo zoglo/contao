@@ -3,9 +3,9 @@ import * as extCodeLens from 'ace-builds/src-noconflict/ext-code_lens';
 import * as extLanguageTools from 'ace-builds/src-noconflict/ext-language_tools';
 import * as extWhitespace from 'ace-builds/src-noconflict/ext-whitespace';
 import 'ace-builds/src-noconflict/mode-twig';
-import themeDark from '!!css-loader!../../styles/components/twig-editor/contao-twig-dark.pcss';
-import themeLight from '!!css-loader!../../styles/components/twig-editor/contao-twig-light.pcss';
 import PhpMode from 'ace-builds/src-noconflict/mode-php';
+import themeDark from '../../styles/components/twig-editor/contao-twig-dark.pcss?inline';
+import themeLight from '../../styles/components/twig-editor/contao-twig-light.pcss?inline';
 import ContaoTwigMode from './contao-twig-mode';
 import { analyzeBlocks, analyzeReferences } from './token-analyzer';
 

@@ -1,5 +1,4 @@
 import { Application } from '@hotwired/stimulus';
-import { definitionForModuleAndIdentifier, identifierForContextKey } from '@hotwired/stimulus-webpack-helpers';
 import '@hotwired/turbo';
 import PasswordVisibility from '@stimulus-components/password-visibility';
 import { AuthenticationController, RegistrationController } from '@web-auth/webauthn-stimulus';
@@ -18,23 +17,17 @@ application.registerActionOption('macos', ({ value }) => {
     return value === /^(Mac|iPhone|iPad)/.test(navigator.platform);
 });
 
-application.debug = process.env.NODE_ENV === 'development';
+application.debug = import.meta.env.DEV;
 application.register('contao--textarea-autogrow', TextareaAutogrow);
 
 // Register all controllers with `contao--` prefix
-const context = require.context('./controllers', true, /\.js$/);
-application.load(
-    context
-        .keys()
-        .map((key) => {
-            const identifier = identifierForContextKey(key);
-            if (identifier) {
-                return definitionForModuleAndIdentifier(context(key), `contao--${identifier}`);
-            }
-            return null;
-        })
-        .filter((value) => value),
-);
+const controllers = import.meta.glob('./controllers/**/*.js', { eager: true });
+for (const [path, module] of Object.entries(controllers)) {
+    const identifier = path.match(/^\.\/controllers\/(.+)[_-]controller\.js$/)?.[1];
+    if (identifier) {
+        application.register(`contao--${identifier.replaceAll('_', '-').replaceAll('/', '--')}`, module.default);
+    }
+}
 
 application.register('contao--webauthn-authentication', AuthenticationController);
 application.register('contao--webauthn-registration', RegistrationController);

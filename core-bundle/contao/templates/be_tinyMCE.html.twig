@@ -40,7 +40,7 @@
                 {% endblock %}
 
                 {% block content_css %}
-                content_css: document.documentElement.dataset.colorScheme === 'dark' ? '{{ asset('tinymce-dark.css', 'contao_core')|e('js') }}' : '{{ asset('tinymce.css', 'contao_core')|e('js') }}',
+                content_css: document.documentElement.dataset.colorScheme === 'dark' ? '{{ reprise_entry_css_files('tinymce-dark', build='contao_core')|first|e('js') }}' : '{{ reprise_entry_css_files('tinymce', build='contao_core')|first|e('js') }}',
                 {% endblock %}
 
                 {% block plugins %}
