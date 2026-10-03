@@ -61,4 +61,33 @@ class NestedResourceTest extends AbstractContaoMonorepoE2ETestCase
         $this->assertSame(422, $status, json_encode($response, JSON_PRETTY_PRINT));
         $this->assertStringContainsString('given by the route', $response['detail'] ?? '');
     }
+
+    public function testIdentifiesRecordsInsideElementGroups(): void
+    {
+        $articleId = (int) $this->apiFixtures()->value('article_main_home');
+        $path = '/dc/article/'.$articleId.'/content';
+
+        [, $group] = $this->apiRequest('POST', $path, ['type' => 'element_group']);
+        [, $innerGroup] = $this->apiRequest('POST', $path.'/'.$group['id']['id'].'/content', ['type' => 'element_group']);
+
+        $this->assertArrayHasKey('@id', $innerGroup, json_encode($innerGroup, JSON_PRETTY_PRINT));
+
+        [$status, $response] = $this->apiRequest(
+            'POST',
+            $path.'/'.$group['id']['id'].'/content/'.$innerGroup['id']['id'].'/content',
+            [
+                'type' => 'headline',
+                'headline' => ['unit' => 'h2', 'value' => 'Nested'],
+            ],
+        );
+
+        $this->assertSame(201, $status, json_encode($response, JSON_PRETTY_PRINT));
+        $this->assertArrayHasKey('@id', $response);
+        $this->assertSame($innerGroup['@id'], $response['pid']['@id'] ?? null);
+
+        [$status, $read] = $this->apiRequest('GET', $response['@id']);
+
+        $this->assertSame(200, $status, json_encode($read, JSON_PRETTY_PRINT));
+        $this->assertSame('Nested', $read['headline']['value']);
+    }
 }
