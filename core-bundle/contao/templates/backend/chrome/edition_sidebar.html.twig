@@ -1,0 +1,15 @@
+{% trans_default_domain 'contao_cms_edition' %}
+
+{% if not contao.is_professional %}
+    <div class="edition-menu sidebar" data-controller="contao--edition-sidebar">
+        <button type="button" class="sidebar-button" id="cms-edition-sidebar-button" aria-label="{{ 'cms_edition.community_label'|trans }}" aria-controls="cms-edition-sidebar-offer" aria-expanded="false" data-controller="contao--toggle-sender" data-contao--toggle-sender-contao--toggle-receiver-outlet="#cms-edition-sidebar-offer" data-action="click->contao--toggle-sender#toggle:prevent">
+            <span class="icon">{{ backend_icon('user-round-group.svg', attributes: attrs().set('width', 24).set('height', 24)) }}</span>
+            <span class="label">
+                <strong>{{ 'cms_edition.community_title'|trans }}</strong>
+                <span class="description">{{ 'cms_edition.community_description'|trans }}</span>
+                <span class="action">{{ 'cms_edition.support_development'|trans }} {{ backend_icon('arrow-right.svg', attributes: attrs().set('width', 16).set('height', 16)) }}</span>
+            </span>
+        </button>
+        {{ include('@Contao/backend/chrome/_edition_offer.html.twig', {offer_id: 'cms-edition-sidebar-offer', sender_id: 'cms-edition-sidebar-button', professional_edition: false, dismiss_sidebar: true}) }}
+    </div>
+{% endif %}

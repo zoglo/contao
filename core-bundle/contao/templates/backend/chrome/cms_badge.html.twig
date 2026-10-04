@@ -1,0 +1,13 @@
+{% trans_default_domain 'contao_cms_edition' %}
+
+{% if not contao.white_label %}
+    {% set professional_edition = contao.is_professional %}
+
+    <div class="edition-menu{{ professional_edition ? ' professional' }}">
+        <button type="button" class="edition-badge" id="cms-badge-button" aria-label="{{ (professional_edition ? 'cms_edition.professional_label' : 'cms_edition.community_label')|trans }}" aria-controls="cms-badge-card" aria-expanded="false" data-controller="contao--toggle-sender" data-action="click->contao--toggle-sender#toggle:prevent" data-contao--toggle-sender-contao--toggle-receiver-outlet="#cms-badge-card">
+            {{ backend_icon(professional_edition ? 'heart-handshake.svg' : 'user-round-group.svg', attributes: attrs().set('width', 16).set('height', 16)) }}
+            <span>{{ (professional_edition ? 'cms_edition.professional' : 'cms_edition.community')|trans }}</span>
+        </button>
+        {{ include('@Contao/backend/chrome/_edition_offer.html.twig', {offer_id: 'cms-badge-card', sender_id: 'cms-badge-button', professional_edition}) }}
+    </div>
+{% endif %}

@@ -39,6 +39,10 @@ class Configuration implements ConfigurationInterface
         $treeBuilder
             ->getRootNode()
             ->children()
+                ->booleanNode('white_label')
+                    ->info('Hide the edition badge and promotion in the Professional edition.')
+                    ->defaultFalse()
+                ->end()
                 ->scalarNode('csrf_cookie_prefix')
                     ->cannotBeEmpty()
                     ->defaultValue('csrf_')

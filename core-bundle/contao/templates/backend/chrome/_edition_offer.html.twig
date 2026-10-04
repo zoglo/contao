@@ -1,0 +1,45 @@
+{% trans_default_domain 'contao_cms_edition' %}
+
+{% set offer_attributes = attrs()
+    .set('id', offer_id)
+    .addClass('edition-offer')
+    .set('role', 'region')
+    .set('aria-labelledby', offer_id ~ '-heading')
+    .set('data-controller', 'contao--toggle-receiver')
+    .set('data-contao--toggle-receiver-active-class', 'active')
+    .set('data-contao--toggle-receiver-contao--toggle-sender-outlet', '#' ~ sender_id)
+    .set('data-action', 'click@document->contao--toggle-receiver#documentClick keydown.esc@document->contao--toggle-receiver#close')
+%}
+
+<div{{ offer_attributes }}>
+    <div class="hero">
+        <button type="button" class="close" aria-label="{{ 'cms_edition.close'|trans }}" data-action="contao--toggle-receiver#close:prevent">
+            {{ backend_icon('close.svg', attributes: attrs().set('width', 12).set('height', 12)) }}
+        </button>
+        {{ backend_icon(professional_edition ? 'heart-handshake.svg' : 'user-round-group.svg', attributes: attrs().set('width', 32).set('height', 32)) }}
+        <strong id="{{ offer_id }}-heading">{{ (professional_edition ? 'cms_edition.professional_title' : 'cms_edition.community_title')|trans }}</strong>
+    </div>
+    <div class="body">
+        <strong>{{ (professional_edition ? 'cms_edition.professional_thanks' : 'cms_edition.community_current')|trans }}</strong>
+        <p>{{ (professional_edition ? 'cms_edition.professional_description' : 'cms_edition.community_description')|trans }}</p>
+        {% if not professional_edition %}
+            <p><strong>{{ 'cms_edition.professional_benefits'|trans }}</strong></p>
+        {% endif %}
+        <ul class="benefits">
+            <li>{{ 'cms_edition.whitelabeling'|trans }}</li>
+            <li>{{ 'cms_edition.releases'|trans }}</li>
+            <li>{{ 'cms_edition.ai_ready'|trans }}</li>
+            <li>{{ 'cms_edition.security'|trans }}</li>
+            <li>{{ 'cms_edition.development'|trans }}</li>
+        </ul>
+        <a class="action" href="https://contao.org/de/finanziell-unterstuetzen" target="_blank" rel="noopener" data-turbo="false">
+            <span>{{ 'cms_edition.learn_more'|trans }}</span>
+            {{ backend_icon(professional_edition ? 'arrow-right-professional.svg' : 'arrow-right.svg', attributes: attrs().set('width', 16).set('height', 16)) }}
+        </a>
+        {% if dismiss_sidebar|default(false) %}
+            <button type="button" class="dismiss" data-action="contao--edition-sidebar#dismiss:prevent">
+                {{ 'cms_edition.dont_show_again'|trans }}
+            </button>
+        {% endif %}
+    </div>
+</div>

@@ -26,6 +26,7 @@ class ContaoVariable
         private readonly TokenChecker $tokenChecker,
         private readonly ContaoCsrfTokenManager $tokenManager,
         private readonly ContaoFramework $framework,
+        private readonly bool $whiteLabel = false,
     ) {
     }
 
@@ -43,6 +44,16 @@ class ContaoVariable
     public function getHas_backend_user(): bool
     {
         return $this->tokenChecker->hasBackendUser();
+    }
+
+    public function getIs_professional(): bool
+    {
+        return false;
+    }
+
+    public function getWhite_label(): bool
+    {
+        return $this->getIs_professional() && $this->whiteLabel;
     }
 
     public function getIs_preview_mode(): bool

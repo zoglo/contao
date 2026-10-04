@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/cms_edition.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="cms_edition.dont_show_again">
+        <source>Don't show again</source>
+        <target>Nicht mehr anzeigen</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.community">
+        <source>Community</source>
+        <target>Community</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional">
+        <source>Professional</source>
+        <target>Professional</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_title">
+        <source>Community Edition</source>
+        <target>Community Edition</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_title">
+        <source>Professional Edition</source>
+        <target>Professional Edition</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_label">
+        <source>Community Edition - support Contao</source>
+        <target>Community Edition - Contao unterstützen</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_label">
+        <source>Professional Edition - supporting Contao</source>
+        <target>Professional Edition - Contao unterstützen</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_description">
+        <source>Full CMS · All features · Open Source</source>
+        <target>Vollständiges CMS · Alle Funktionen · Open Source</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.support_development">
+        <source>Support development with Professional</source>
+        <target>Weiterentwicklung mit Professional unterstützen</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.close">
+        <source>Close</source>
+        <target>Schließen</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_current">
+        <source>You are using the Community Edition.</source>
+        <target>Du nutzt die Community Edition.</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_thanks">
+        <source>Thank you for your support.</source>
+        <target>Danke für deine Unterstützung.</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_description">
+        <source>Professional supports the continued development of Contao.</source>
+        <target>Mit Professional sicherst du die Weiterentwicklung von Contao.</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_benefits">
+        <source>Support Contao with Professional and get:</source>
+        <target>Unterstütze Contao mit Professional und erhalte:</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.whitelabeling">
+        <source>Whitelabeling allowed</source>
+        <target>Whitelabeling erlaubt</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.releases">
+        <source>Two guaranteed releases per year</source>
+        <target>Garantierte 2 Releases pro Jahr</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.ai_ready">
+        <source>AI-ready (from 6.1)</source>
+        <target>KI-ready (ab 6.1)</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.security">
+        <source>Fast response to security issues</source>
+        <target>Schnelle Reaktion auf Sicherheitsprobleme</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.development">
+        <source>Ensures continued development</source>
+        <target>Sichert die Weiterentwicklung</target>
+      </trans-unit>
+      <trans-unit id="cms_edition.learn_more">
+        <source>Learn more &amp; support</source>
+        <target>Mehr erfahren &amp; unterstützen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1591,6 +1591,7 @@ services:
             - '@contao.security.token_checker'
             - '@contao.csrf.token_manager'
             - '@contao.framework'
+            - '%contao.white_label%'
 
     contao.twig.highlighter_runtime:
         class: Contao\CoreBundle\Twig\Runtime\HighlighterRuntime

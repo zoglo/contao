@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/cms_edition.php" source-language="en">
+    <body>
+      <trans-unit id="cms_edition.dont_show_again">
+        <source>Don't show again</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.community">
+        <source>Community</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional">
+        <source>Professional</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_title">
+        <source>Community Edition</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_title">
+        <source>Professional Edition</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_label">
+        <source>Community Edition - support Contao</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_label">
+        <source>Professional Edition - supporting Contao</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_description">
+        <source>Full CMS · All features · Open Source</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.support_development">
+        <source>Support development with Professional</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.close">
+        <source>Close</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.community_current">
+        <source>You are using the Community Edition.</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_thanks">
+        <source>Thank you for your support.</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_description">
+        <source>Professional supports the continued development of Contao.</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.professional_benefits">
+        <source>Support Contao with Professional and get:</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.whitelabeling">
+        <source>Whitelabeling allowed</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.releases">
+        <source>Two guaranteed releases per year</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.ai_ready">
+        <source>AI-ready (from 6.1)</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.security">
+        <source>Fast response to security issues</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.development">
+        <source>Ensures continued development</source>
+      </trans-unit>
+      <trans-unit id="cms_edition.learn_more">
+        <source>Learn more &amp; support</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
