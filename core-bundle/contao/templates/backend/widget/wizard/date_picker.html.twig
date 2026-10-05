@@ -1,0 +1,35 @@
+{% trans_default_domain 'contao_default' %}
+
+{% block date_picker_wizard %}
+    {% set icon_attributes = attrs()
+        .set('id', 'toggle_' ~ input_name)
+        .addStyle('cursor:pointer')
+        .set('data-contao--tooltips-target', 'tooltip')
+    %}
+    {{ backend_icon('assets/datepicker/images/icon.svg', 'MSC.datepicker'|trans, icon_attributes) }}
+
+    {% block date_picker_script %}
+        <script>
+            new Picker.Date($("ctrl_{{ input_name|e('js') }}"), {
+                {% block date_picker_options %}
+                    draggable: false,
+                    toggle: $("toggle_{{ input_name|e('js') }}"),
+                    format: "{{ format|e('js') }}",
+                    positionOffset: {x:-211,y:-209},
+                    {% if rgxp == 'datim' %}
+                        timePicker: true,
+                    {% elseif rgxp == 'time' %}
+                        pickOnly: "time",
+                    {% endif %}
+                    pickerClass: "datepicker_bootstrap",
+                    useFadeInOut: !Browser.ie,
+                    {% if submit_on_change %}
+                        onSelect: function() { Backend.autoSubmit("{{ table|e('js') }}"); },
+                    {% endif %}
+                    startDay: {{ week_offset }},
+                    titleFormat: "{{ title_format|e('js') }}"
+                {% endblock %}
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

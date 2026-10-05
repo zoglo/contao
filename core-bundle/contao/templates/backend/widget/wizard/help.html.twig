@@ -1,0 +1,9 @@
+{% trans_default_domain 'contao_default' %}
+
+{% block help_wizard %}
+    {% set link_attributes = attrs()
+        .set('href', path('contao_backend_help', {table, field}))
+        .set('onclick', 'Backend.openModalIframe({title:' ~ (title|json_encode) ~ ',url:this.href});return false')
+    %}
+    <a{{ link_attributes }}>{{ backend_icon('help.svg', 'MSC.helpWizard'|trans) }}</a>
+{% endblock %}

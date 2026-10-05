@@ -444,7 +444,11 @@ abstract class DataContainer extends Backend
 		// Add the help wizard
 		if ($arrData['eval']['helpwizard'] ?? null)
 		{
-			$xlabel .= ' <a href="' . StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend_help', array('table' => $this->strTable, 'field' => $this->strField))) . '" onclick="Backend.openModalIframe({\'title\':\'' . StringUtil::specialchars(str_replace("'", "\\'", $arrData['label'][0] ?? '')) . '\',\'url\':this.href});return false">' . Image::getHtml('help.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']) . '</a>';
+			$xlabel .= System::getContainer()->get('twig')->render('@Contao/backend/widget/wizard/help.html.twig', array(
+				'table' => $this->strTable,
+				'field' => $this->strField,
+				'title' => $arrData['label'][0] ?? '',
+			));
 		}
 
 		// Add a custom xlabel
@@ -581,50 +585,17 @@ abstract class DataContainer extends Backend
 		if ($arrAttributes['datepicker'] ?? null)
 		{
 			$rgxp = $arrAttributes['rgxp'] ?? 'date';
-			$format = Date::formatToJs(Config::get($rgxp . 'Format'));
 
-			switch ($rgxp)
-			{
-				case 'datim':
-					$time = ",\n        timePicker: true";
-					break;
-
-				case 'time':
-					$time = ",\n        pickOnly: \"time\"";
-					break;
-
-				default:
-					$time = '';
-					break;
-			}
-
-			$strOnSelect = '';
-
-			// Trigger the auto-submit function (see #8603)
-			if ($arrAttributes['submitOnChange'] ?? null)
-			{
-				$strOnSelect = ",\n        onSelect: function() { Backend.autoSubmit(\"" . $this->strTable . "\"); }";
-			}
-
-			$wizard .= ' ' . Image::getHtml('assets/datepicker/images/icon.svg', $GLOBALS['TL_LANG']['MSC']['datepicker'], 'id="toggle_' . $objWidget->id . '" style="cursor:pointer" data-contao--tooltips-target="tooltip"') . '
-  <script>
-    new Picker.Date($("ctrl_' . $objWidget->id . '"), {
-      draggable: false,
-      toggle: $("toggle_' . $objWidget->id . '"),
-      format: "' . $format . '",
-      positionOffset: {x:-211,y:-209}' . $time . ',
-      pickerClass: "datepicker_bootstrap",
-      useFadeInOut: !Browser.ie' . $strOnSelect . ',
-      startDay: ' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
-      titleFormat: "' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
-    });
-  </script>';
-		}
-
-		// Color picker
-		if ($blnColorPicker)
-		{
-			$wizard .= '<div data-contao--color-picker-target="button"></div>';
+			$wizard .= System::getContainer()->get('twig')->render('@Contao/backend/widget/wizard/date_picker.html.twig', array(
+				'table' => $this->strTable,
+				'field' => $this->strField,
+				'input_name' => $objWidget->id,
+				'rgxp' => $rgxp,
+				'format' => Date::formatToJs(Config::get($rgxp . 'Format')),
+				'submit_on_change' => $arrAttributes['submitOnChange'] ?? false,
+				'week_offset' => $GLOBALS['TL_LANG']['MSC']['weekOffset'],
+				'title_format' => $GLOBALS['TL_LANG']['MSC']['titleFormat'],
+			));
 		}
 
 		$arrClasses = StringUtil::trimsplit(' ', $arrAttributes['tl_class'] ?? '');
@@ -654,7 +625,9 @@ abstract class DataContainer extends Backend
 
 		$hasWizardClass = \in_array('wizard', $arrClasses);
 
-		if ($wizard && !($arrAttributes['disabled'] ?? false) && !($arrAttributes['readonly'] ?? false))
+		$blnWizardEnabled = !($arrAttributes['disabled'] ?? false) && !($arrAttributes['readonly'] ?? false);
+
+		if ($wizard && $blnWizardEnabled)
 		{
 			$objWidget->wizard = $wizard;
 
@@ -692,6 +665,7 @@ abstract class DataContainer extends Backend
 		}
 
 		$updateMode = '';
+		$blnUpdateMultiple = false;
 
 		// Replace the textarea with an RTE instance
 		if (!empty($arrAttributes['rte']))
@@ -728,20 +702,22 @@ abstract class DataContainer extends Backend
 		// Handle multi-select fields in "override all" mode
 		elseif (($arrAttributes['multiple'] ?? null) && (($arrData['inputType'] ?? null) == 'checkbox' || ($arrData['inputType'] ?? null) == 'checkboxWizard' || ($arrData['inputType'] ?? null) == 'pageTree' || ($arrData['inputType'] ?? null) == 'fileTree') && Input::get('act') == 'overrideAll')
 		{
-			$updateMode = '
-</div>
-<div class="widget">
-  <fieldset class="tl_radio_container">
-  <legend>' . $GLOBALS['TL_LANG']['MSC']['updateMode'] . '</legend>
-    <input type="radio" name="' . $this->strInputName . '_update" id="opt_' . $this->strInputName . '_update_1" class="tl_radio" value="add" data-action="focus->contao--scroll-offset#store"> <label for="opt_' . $this->strInputName . '_update_1">' . $GLOBALS['TL_LANG']['MSC']['updateAdd'] . '</label><br>
-    <input type="radio" name="' . $this->strInputName . '_update" id="opt_' . $this->strInputName . '_update_2" class="tl_radio" value="remove" data-action="focus->contao--scroll-offset#store"> <label for="opt_' . $this->strInputName . '_update_2">' . $GLOBALS['TL_LANG']['MSC']['updateRemove'] . '</label><br>
-    <input type="radio" name="' . $this->strInputName . '_update" id="opt_' . $this->strInputName . '_update_0" class="tl_radio" value="replace" checked="checked" data-action="focus->contao--scroll-offset#store"> <label for="opt_' . $this->strInputName . '_update_0">' . $GLOBALS['TL_LANG']['MSC']['updateReplace'] . '</label>
-  </fieldset>';
+			$blnUpdateMultiple = true;
 		}
 
-		return '
-<div' . (!empty($arrAttributes['tl_class']) ? ' class="' . trim($arrAttributes['tl_class']) . '"' : '') . ($objWidget->hasErrors() ? ' data-contao--scroll-offset-target="widgetError"' : '') . ($blnColorPicker ? ' data-controller="contao--color-picker" data-contao--color-picker-theme-value="monolith"' : '') . '>' . $objWidget->parse() . $updateMode . (!$objWidget->hasErrors() ? $this->help($strHelpClass, $objWidget->description) : '') . '
-</div>';
+		return System::getContainer()->get('twig')->render($blnColorPicker ? '@Contao/backend/widget/wizard/color_picker.html.twig' : '@Contao/backend/data_container/widget.html.twig', array(
+			'table' => $this->strTable,
+			'field' => $this->strField,
+			'input_name' => $this->strInputName,
+			'input_type' => $arrData['inputType'] ?? null,
+			'class' => trim($arrAttributes['tl_class'] ?? ''),
+			'has_errors' => $objWidget->hasErrors(),
+			'widget' => $objWidget,
+			'wizard_enabled' => $blnWizardEnabled,
+			'editor' => $updateMode,
+			'update_multiple' => $blnUpdateMultiple,
+			'help' => !$objWidget->hasErrors() ? $this->help($strHelpClass, $objWidget->description) : '',
+		));
 	}
 
 	/**
@@ -760,8 +736,10 @@ abstract class DataContainer extends Backend
 			return '';
 		}
 
-		return '
-  <p class="tl_help tl_tip' . StringUtil::specialchars($strClass) . '" data-contao--tooltips-target="content">' . System::getContainer()->get('contao.html_sanitizer')->sanitizeFor('p', $return) . '</p>';
+		return System::getContainer()->get('twig')->render('@Contao/backend/data_container/help.html.twig', array(
+			'class' => $strClass,
+			'description' => $return,
+		));
 	}
 
 	/**

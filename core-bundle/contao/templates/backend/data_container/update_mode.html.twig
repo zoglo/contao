@@ -1,0 +1,19 @@
+{% trans_default_domain 'contao_default' %}
+
+{% block update_mode %}
+    <fieldset class="tl_radio_container">
+        <legend>{{ 'MSC.updateMode'|trans }}</legend>
+        {% for value, label in {add: 'MSC.updateAdd', remove: 'MSC.updateRemove', replace: 'MSC.updateReplace'} %}
+            {% set input_attributes = attrs()
+                .set('type', 'radio')
+                .set('name', input_name ~ '_update')
+                .set('id', 'opt_' ~ input_name ~ '_update_' ~ (loop.last ? 0 : loop.index))
+                .addClass('tl_radio')
+                .set('value', value)
+                .set('checked', condition: loop.last)
+                .set('data-action', 'focus->contao--scroll-offset#store')
+            %}
+            <input{{ input_attributes }}> <label for="{{ input_attributes.id }}">{{ label|trans }}</label>{% if not loop.last %}<br>{% endif %}
+        {% endfor %}
+    </fieldset>
+{% endblock %}

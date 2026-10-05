@@ -1,0 +1,13 @@
+{% trans_default_domain 'contao_default' %}
+
+{% block dca_picker_wizard %}
+    {% set link_attributes = attrs()
+        .set('href', url)
+        .set('id', 'pp_' ~ input_name)
+        .addClass('picker-wizard')
+        .set('data-controller', 'contao--modal-selector')
+        .set('data-contao--modal-selector-title-value', (title ?? label)|trans)
+        .set('data-action', 'contao--modal-selector#dcapicker')
+    %}
+    <a{{ link_attributes }}>{{ backend_icon(icon, 'MSC.pagepicker'|trans) }}</a>
+{% endblock %}

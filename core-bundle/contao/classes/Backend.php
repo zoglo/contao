@@ -776,13 +776,15 @@ abstract class Backend extends Controller
 			return '';
 		}
 
-		return \sprintf(
-			' <a href="%s" id="pp_%s" class="picker-wizard" data-controller="contao--modal-selector" data-contao--modal-selector-title-value="%s" data-action="contao--modal-selector#dcapicker">%s</a>',
-			StringUtil::ampersand($factory->getUrl($context, $extras)),
-			$inputName,
-			StringUtil::specialchars($title ?? $GLOBALS['TL_DCA'][$table]['fields'][$field]['label'][0] ?? ''),
-			Image::getHtml(\is_array($extras) && isset($extras['icon']) ? $extras['icon'] : 'pickpage.svg', $GLOBALS['TL_LANG']['MSC']['pagepicker']),
-		);
+		return System::getContainer()->get('twig')->render('@Contao/backend/widget/wizard/dca_picker.html.twig', array(
+			'table' => $table,
+			'field' => $field,
+			'input_name' => $inputName,
+			'url' => $factory->getUrl($context, $extras),
+			'title' => $title,
+			'label' => $GLOBALS['TL_DCA'][$table]['fields'][$field]['label'][0] ?? '',
+			'icon' => $extras['icon'] ?? 'pickpage.svg',
+		));
 	}
 
 	/**

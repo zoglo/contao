@@ -1,0 +1,18 @@
+{% extends '@Contao/backend/data_container/widget.html.twig' %}
+
+{% block widget_attributes %}
+    {% do widget_attributes
+        .addClass('wizard', wizard_enabled)
+        .addClass('inline', wizard_enabled and input_type == 'text' and widget.multiple|default(false))
+        .set('data-controller', 'contao--color-picker')
+        .set('data-contao--color-picker-theme-value', 'monolith')
+    %}
+    {{ parent() }}
+{% endblock %}
+
+{% block wizard %}
+    {{ parent() }}
+    {% if wizard_enabled %}
+        <div data-contao--color-picker-target="button"></div>
+    {% endif %}
+{% endblock %}

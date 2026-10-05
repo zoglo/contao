@@ -1,0 +1,24 @@
+{% block widget %}
+    {% set widget_attributes = attrs()
+        .addClass(class)
+        .set('data-contao--scroll-offset-target', 'widgetError', has_errors)
+    %}
+    {% block widget_attributes %}
+        <{{ wrapper_tag|default('div') }}{{ widget_attributes }}>
+    {% endblock %}
+        {% block widget_content %}
+            {% set wizard %}{% block wizard %}{{ widget.wizard|raw }}{% endblock %}{% endset %}
+            {{ widget.parse({wizard})|raw }}{{ editor|raw }}
+        {% endblock %}
+        {% if update_multiple %}
+            </{{ wrapper_tag|default('div') }}>
+            <div class="widget">
+                {% block update_mode %}
+                    {{ include('@Contao/backend/data_container/update_mode.html.twig') }}
+                {% endblock %}
+        {% endif %}
+        {% block widget_help %}
+            {{ help|raw }}
+        {% endblock %}
+    </{{ wrapper_tag|default('div') }}>
+{% endblock %}
