@@ -135,6 +135,10 @@ final class PluginTest extends TestCase
                 'provider' => 'contao.security.backend_user_provider',
                 'user_checker' => 'contao.security.user_checker',
                 'custom_authenticators' => ['contao_oauth_server.security.bearer_authenticator'],
+                'access_token' => [
+                    'token_handler' => 'contao.security.access_token.backend_token_handler',
+                    'success_handler' => 'contao.security.access_token.authentication_success_handler',
+                ],
                 'entry_point' => 'contao_oauth_server.security.bearer_authenticator',
             ],
             $config[0]['firewalls']['contao_mcp'],

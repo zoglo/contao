@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Contao\OAuthServerBundle\Security;
 
+use Contao\CoreBundle\Security\AccessToken\AccessTokenManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -36,7 +37,12 @@ class BearerAuthenticator extends AbstractAuthenticator implements Authenticatio
 
     public function supports(Request $request): bool
     {
-        return 1 === preg_match('/^Bearer\s+\S+/i', (string) $request->headers->get('Authorization'));
+        if (1 !== preg_match('/^Bearer\s+(\S+)/i', (string) $request->headers->get('Authorization'), $matches)) {
+            return false;
+        }
+
+        // Personal access tokens are handled by the access token authenticator
+        return !str_starts_with($matches[1], AccessTokenManager::TOKEN_PREFIX);
     }
 
     public function authenticate(Request $request): Passport
