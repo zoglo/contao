@@ -181,7 +181,7 @@
 <div class="two-factor personal-access-tokens">
     <h2 class="sub_headline">{{ 'MSC.personalAccessTokens'|trans }}</h2>
     <p>{{ 'MSC.personalAccessTokensDescription'|trans }}</p>
-    <turbo-frame id="personal-access-tokens" data-turbo-action="advance">
+    <turbo-frame id="personal-access-tokens"{% if not created_pat_token|default %} data-turbo-action="advance"{% endif %}>
         {% if personal_access_tokens|default %}
             <table class="tl_listing showColumns with-border with-padding pat-table">
                 <thead>
@@ -200,6 +200,7 @@
                                     <button
                                         type="button"
                                         title="{{ 'MSC.personalAccessTokenCopy'|trans }}"
+                                        data-turbo-temporary
                                         data-controller="contao--clipboard"
                                         data-contao--clipboard-content-value="{{ created_pat_token }}"
                                         data-contao--clipboard-message-value="{{ 'MSC.clipboardCopy'|trans }}"
@@ -245,7 +246,7 @@
             </table>
         {% endif %}
         {% if create_pat|default %}
-            <form class="tl_create_pat" method="post" novalidate>
+            <form class="tl_create_pat" method="post" novalidate data-turbo-frame="_top">
                 <input type="hidden" name="FORM_SUBMIT" value="tl_pat_create">
                 <input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
                 <div class="formbody">
@@ -266,7 +267,7 @@
                     <button class="tl_submit" type="submit">{{ 'MSC.generatePersonalAccessToken'|trans }}</button>
                 </div>
             </form>
-        {% else %}
+        {% elseif can_create_pat|default %}
             <div class="submit_container">
                 <a href="{{ path('contao_backend', {'do': 'security', 'act': 'create_pat'}) }}" class="tl_submit">{{ 'MSC.generatePersonalAccessToken'|trans }}</a>
             </div>
