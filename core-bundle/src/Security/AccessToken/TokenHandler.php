@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Contao\CoreBundle\Security\AccessToken;
 
 use Contao\CoreBundle\Security\User\ContaoUserProvider;
+use Contao\User;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
@@ -25,6 +26,7 @@ class TokenHandler implements AccessTokenHandlerInterface
         private readonly ContaoUserProvider $userProvider,
         private readonly RequestStack $requestStack,
         private readonly string $scope,
+        private readonly bool $enforceTwoFactor = false,
     ) {
     }
 
@@ -38,6 +40,17 @@ class TokenHandler implements AccessTokenHandlerInterface
 
         $this->requestStack->getCurrentRequest()->attributes->set('_access_token', $token);
 
-        return new UserBadge(AccessTokenManager::TOKEN_PREFIX.$token->getId()->toBase32(), fn () => $this->userProvider->loadUserById($token->getUserId()));
+        return new UserBadge(
+            AccessTokenManager::TOKEN_PREFIX.$token->getId()->toBase32(),
+            function () use ($token): User {
+                $user = $this->userProvider->loadUserById($token->getUserId());
+
+                if ($this->enforceTwoFactor && !$user->useTwoFactor) {
+                    throw new BadCredentialsException('Two-factor authentication has not been set up.');
+                }
+
+                return $user;
+            },
+        );
     }
 }

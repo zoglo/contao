@@ -10,6 +10,7 @@
 
 namespace Contao;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Entity\PersonalAccessToken;
 use Contao\CoreBundle\Entity\WebauthnCredential;
 use Contao\CoreBundle\Exception\AccessDeniedException;
@@ -168,7 +169,9 @@ class ModuleTwoFactor extends BackendModule
 			$this->redirect($container->get('router')->generate('contao_backend', array('do'=>'security')));
 		}
 
-		if (Input::get('act') === 'create_pat')
+		$canCreatePat = $user->useTwoFactor || !$container->getParameter('contao.security.two_factor.enforce_backend');
+
+		if ($canCreatePat && Input::get('act') === 'create_pat')
 		{
 			$translator = $container->get('translator');
 
@@ -228,7 +231,8 @@ class ModuleTwoFactor extends BackendModule
 			$this->Template->created_pat_token = $token;
 		}
 
-		$this->Template->personal_access_tokens = $patRepo->getAllForUser((int) $user->id);
+		$this->Template->can_create_pat = $canCreatePat;
+		$this->Template->personal_access_tokens = $patRepo->getAllForUser((int) $user->id, ContaoCoreBundle::SCOPE_BACKEND);
 
 		$session->remove('_created_pat_token');
 	}

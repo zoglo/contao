@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace Contao\CoreBundle\Tests\Security\AccessToken;
 
+use Contao\BackendUser;
 use Contao\CoreBundle\Entity\PersonalAccessToken;
 use Contao\CoreBundle\Security\AccessToken\AccessTokenManager;
 use Contao\CoreBundle\Security\AccessToken\TokenHandler;
 use Contao\CoreBundle\Security\User\ContaoUserProvider;
 use Contao\CoreBundle\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -88,5 +90,50 @@ class TokenHandlerTest extends TestCase
         );
 
         $handler->getUserBadgeFrom($accessToken);
+    }
+
+    #[DataProvider('getTwoFactorStates')]
+    public function testHandlesMandatoryTwoFactorSetup(bool $enforceTwoFactor, bool $useTwoFactor, bool $expectException): void
+    {
+        $personalAccessToken = new PersonalAccessToken('backend', 42, 'foobar', 'hashed-secret');
+
+        $accessTokenManager = $this->createStub(AccessTokenManager::class);
+        $accessTokenManager
+            ->method('parseAndValidateToken')
+            ->willReturn($personalAccessToken)
+        ;
+
+        $requestStack = $this->createStub(RequestStack::class);
+        $requestStack
+            ->method('getCurrentRequest')
+            ->willReturn(new Request())
+        ;
+
+        $user = $this->createClassWithPropertiesStub(BackendUser::class);
+        $user->useTwoFactor = $useTwoFactor;
+
+        $userProvider = $this->createMock(ContaoUserProvider::class);
+        $userProvider
+            ->expects($this->once())
+            ->method('loadUserById')
+            ->with(42)
+            ->willReturn($user)
+        ;
+
+        $handler = new TokenHandler($accessTokenManager, $userProvider, $requestStack, 'backend', $enforceTwoFactor);
+        $userBadge = $handler->getUserBadgeFrom('ct_pat_foo_bar');
+
+        if ($expectException) {
+            $this->expectException(BadCredentialsException::class);
+        }
+
+        $this->assertSame($user, $userBadge->getUser());
+    }
+
+    public static function getTwoFactorStates(): iterable
+    {
+        yield 'not enforced' => [false, false, false];
+        yield 'enforced and set up' => [true, true, false];
+        yield 'enforced but not set up' => [true, false, true];
     }
 }
