@@ -1188,6 +1188,7 @@ services:
             - '@contao.security.backend_user_provider'
             - '@request_stack'
             - backend
+            - '%contao.security.two_factor.enforce_backend%'
 
     contao.security.access_token.frontend_token_handler:
         class: Contao\CoreBundle\Security\AccessToken\TokenHandler
@@ -1201,7 +1202,6 @@ services:
         class: Contao\CoreBundle\Security\AccessToken\AccessTokenManager
         public: true
         arguments:
-            - '@security.password_hasher_factory'
             - '@doctrine.orm.entity_manager'
 
     contao.security.authentication_failure_handler:
