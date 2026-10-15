@@ -1,0 +1,41 @@
+tl_user:
+    two_factor_user:
+        tstamp: 1709063739
+        username: t.factor
+        name: Two Factor
+        email: t.factor@example.com
+        language: en
+        password: $2y$13$r2Bm9Yt7UdhbHJQ/HjgYZuUM89vVl9FSb0slHzlOfOY.ExQbj7u1.
+        admin: 1
+        useTwoFactor: 1
+        disable: 0
+        dateAdded: 1257428510
+    no_two_factor_user:
+        tstamp: 1709063739
+        username: n.factor
+        name: No Two Factor
+        email: n.factor@example.com
+        language: en
+        password: $2y$13$r2Bm9Yt7UdhbHJQ/HjgYZuUM89vVl9FSb0slHzlOfOY.ExQbj7u1.
+        admin: 1
+        useTwoFactor: 0
+        disable: 0
+        dateAdded: 1257428510
+
+# Token: ct_pat_0000000000E008000000000043_twofactor
+# Token: ct_pat_0000000000E008000000000044_notwofactor
+PersonalAccessToken:
+    two_factor_token:
+        id: !!binary AAAAAAAAcACAAAAAAAAAgw==
+        scope: backend
+        userId: '@two_factor_user'
+        createdAt: '2026-10-12 12:00:00'
+        name: E2E
+        secret: a4f6db599810edab0226069d24d113846eb115c7c8834cf0935407400bc1e355
+    no_two_factor_token:
+        id: !!binary AAAAAAAAcACAAAAAAAAAhA==
+        scope: backend
+        userId: '@no_two_factor_user'
+        createdAt: '2026-10-12 12:00:00'
+        name: E2E
+        secret: 092b5bb660fb1d32f932eeb6bbfe430a5261f8ea428590794c8b7953afa9e53d

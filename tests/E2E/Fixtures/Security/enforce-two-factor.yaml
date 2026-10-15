@@ -1,0 +1,4 @@
+contao:
+    security:
+        two_factor:
+            enforce_backend: true
