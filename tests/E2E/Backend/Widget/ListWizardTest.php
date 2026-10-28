@@ -80,31 +80,41 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
         // At the end of the text, ArrowRight indents the item and keeps editing it
         $this->activate($backend, 3);
         $this->moveCaret($backend, true);
+
         $keyboard->press('ArrowRight');
 
         $this->assertSame(['Foo', '-Bar', '-Baz', '-Qux', 'Quux'], $this->tree($backend));
+
         $this->waitForEditor($backend, 3);
 
         // At the start of the text, ArrowLeft outdents it again
         $this->moveCaret($backend, false);
+
         $keyboard->press('ArrowLeft');
 
         $this->assertSame(self::FIXTURE, $this->tree($backend));
+
         $this->waitForEditor($backend, 3);
 
         // ArrowUp and ArrowDown move to the previous or next item across the levels
         $this->moveCaret($backend, false);
+
         $keyboard->press('ArrowUp');
+
         $this->waitForEditor($backend, 2);
 
         $this->moveCaret($backend, true);
+
         $keyboard->press('ArrowDown');
+
         $this->waitForEditor($backend, 3);
 
         // Inside the text, the caret moves as usual
         $this->moveCaret($backend, true);
+
         $keyboard->press('ArrowLeft');
         $keyboard->type('X');
+
         $backend->submitForm('Save');
 
         $this->assertSame(['Foo', '-Bar', '-Baz', '<p>QuXx</p>', 'Quux'], $this->tree($backend));
@@ -117,8 +127,11 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         $this->activate($backend, 1);
         $this->moveCaret($backend, true);
+
         $backend->page()->keyboard()->press('Enter');
+
         $this->waitForEditor($backend, 2);
+
         $backend->page()->keyboard()->type('Corge');
 
         // Shift+Enter adds a line break instead of an item
@@ -141,9 +154,12 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
         // Extending the selection does not indent or outdent
         $this->activate($backend, 3);
         $this->moveCaret($backend, true);
+
         $keyboard->press('Shift+ArrowRight');
+
         $this->activate($backend, 1);
         $this->moveCaret($backend, false);
+
         $keyboard->press('Shift+ArrowLeft');
 
         $this->assertSame(self::FIXTURE, $this->tree($backend));
@@ -166,6 +182,7 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         $this->activate($backend, 1);
         $this->moveCaret($backend, true);
+
         $backend->page()->keyboard()->type('X');
 
         // The editor does not offer lists inside list items
@@ -187,6 +204,7 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         $this->activate($backend, 1);
         $this->moveCaret($backend, true);
+
         $backend->page()->keyboard()->type('X');
 
         // Submit the form while the item is still being edited
@@ -201,7 +219,9 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         $this->activate($backend, 0);
         $this->moveCaret($backend, true);
+
         $backend->page()->keyboard()->type('X');
+
         $this->rows($backend)->nth(0)->locator(':scope > [data-action^="contao--list-wizard#copy"]')->click();
 
         // The copy is focused and edited with its own editor
@@ -209,6 +229,7 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
         $this->assertSame('FooX', trim($this->editor($backend, 3)->innerText()));
 
         $this->moveCaret($backend, true);
+
         $backend->page()->keyboard()->type('Y');
         $backend->submitForm('Save');
 
@@ -261,12 +282,14 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
     {
         $backend = $this->openListElement();
         $mouse = $backend->page()->mouse();
+
         $handle = $this->rows($backend)->nth(4)->locator(':scope > .drag-handle');
         $start = $handle->boundingBox();
 
         $mouse->move($start['x'] + $start['width'] / 2, $start['y'] + $start['height'] / 2);
         $mouse->down();
         $mouse->move($start['x'] + $start['width'] / 2 + 10, $start['y'] + $start['height'] / 2, ['steps' => 5]);
+
         $backend->page()->locator('.sortable-ghost')->waitFor();
 
         // Approach the empty list below "Qux" from its empty insert margin
@@ -295,6 +318,7 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         // Moving the first item up wraps it to the end
         $this->rows($backend)->nth(0)->locator(':scope > .drag-handle')->press('ArrowUp');
+
         $expected = ['Qux', 'Quux', 'Foo', '-Baz', '-Bar'];
 
         $this->assertSame($expected, $this->tree($backend));
@@ -338,6 +362,7 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         $this->activate($backend, 4);
         $this->moveCaret($backend, true);
+
         $backend->page()->keyboard()->press('Enter');
         $backend->submitForm('Save');
 
@@ -359,10 +384,13 @@ class ListWizardTest extends AbstractContaoMonorepoE2ETestCase
 
         // Enter adds an item, the arrow keys do not change the nesting
         $this->input($backend, 0, self::BASIC_LIST_WIZARD)->fill('First');
+
         $keyboard->press('Enter');
         $keyboard->type('Second');
         $keyboard->press('ArrowRight');
+
         $this->focus($backend, 1, 'start', self::BASIC_LIST_WIZARD);
+
         $keyboard->press('ArrowLeft');
 
         $this->assertSame(['First', 'Second'], $this->items($backend));
