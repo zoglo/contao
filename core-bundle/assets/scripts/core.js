@@ -213,6 +213,10 @@ window.AjaxRequest =
 	 * @param {string} field The field name
 	 */
 	toggleSubpalette: function(el, id, field) {
+		if (window.console) {
+			console.warn('AjaxRequest.toggleSubpalette() is deprecated. Please use the Stimulus controller instead.');
+		}
+
 		var item = $(id);
 
 		if (item) {

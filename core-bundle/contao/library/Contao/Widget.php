@@ -1297,7 +1297,12 @@ abstract class Widget extends Controller
 		// Add Ajax event
 		if (($arrData['inputType'] ?? null) == 'checkbox' && ($arrData['eval']['submitOnChange'] ?? null) && \is_array($GLOBALS['TL_DCA'][$strTable]['subpalettes'] ?? null) && \array_key_exists($strField, $GLOBALS['TL_DCA'][$strTable]['subpalettes']))
 		{
-			$arrAttributes['onclick'] = "AjaxRequest.toggleSubpalette(this, 'sub_" . $strName . "', '" . $strField . "')";
+			unset($arrAttributes['onclick']);
+
+			$arrAttributes['data-controller'] = trim(($arrAttributes['data-controller'] ?? '') . ' contao--toggle-subpalette');
+			$arrAttributes['data-action'] = trim(($arrAttributes['data-action'] ?? '') . ' contao--toggle-subpalette#toggle');
+			$arrAttributes['data-contao--toggle-subpalette-id-value'] = 'sub_' . $strName;
+			$arrAttributes['data-contao--toggle-subpalette-field-value'] = $strField;
 		}
 
 		// Options callback
